@@ -100,3 +100,75 @@ ufw allow $PORT/tcp
 ```
 
 هذا السكربت يوفر حلًا متكاملًا ومحترفًا لأتمتة تثبيت Odoo على HestiaCP مع مراعاة أفضل ممارسات الأمان والموثوقية.
+
+إليك الخطوات الكاملة لتحميل وتثبيت سكربت Odoo في HestiaCP بشكل يدوي:
+
+### 1. الدخول إلى مجلد التطبيقات السريعة:
+```bash
+cd /usr/local/hestia/data/templates/web/quick_apps
+```
+
+### 2. إنشاء ملف السكربت:
+```bash
+sudo nano odoo.sh
+```
+
+### 3. نسخ محتوى السكربت (من الرابط المذكور):
+```bash
+# استبدل محتوى الملف بالكود من GitHub
+sudo wget https://raw.githubusercontent.com/jaksws/hestia.odoo.integration/main/odoo.sh -O odoo.sh
+```
+
+### 4. منح الصلاحيات التنفيذية:
+```bash
+sudo chmod +x odoo.sh
+```
+
+### 5. إضافة Odoo لقائمة التطبيقات السريعة:
+```bash
+sudo nano /usr/local/hestia/data/templates/web/quick_apps/available_apps
+```
+
+أضف السطر التالي في نهاية الملف:
+```
+odoo|Odoo ERP|odoo.sh
+```
+
+### 6. إعادة تحميل HestiaCP:
+```bash
+sudo systemctl restart hestia
+```
+
+### 7. التحقق من ظهور Odoo في الواجهة:
+1. اذهب إلى لوحة تحكم HestiaCP
+2. أنشأ دومين جديد
+3. اختر "Quick Install Apps"
+4. تأكد من وجود Odoo في القائمة
+
+---
+
+### ملاحظات هامة:
+
+1. **الهيكل المطلوب للملفات**:
+```
+/usr/local/hestia/data/templates/web/quick_apps/
+├── odoo.sh
+└── available_apps (يحتوي على سطر: odoo|Odoo ERP|odoo.sh)
+```
+
+2. **تحقق من الصلاحيات**:
+```bash
+ls -l odoo.sh
+# يجب أن تظهر الصلاحيات: -rwxr-xr-x
+```
+
+3. **في حالة وجود أخطاء**:
+- راجع سجلات HestiaCP:
+```bash
+tail -f /var/log/hestia/error.log
+```
+
+4. **إصدارات HestiaCP المدعومة**:
+- يعمل على الإصدارات 1.6.0 فما فوق
+
+---
